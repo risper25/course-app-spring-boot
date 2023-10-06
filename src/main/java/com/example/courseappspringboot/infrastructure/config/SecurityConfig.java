@@ -28,7 +28,7 @@ public class SecurityConfig {
         httpSecurity.csrf((csrf) -> csrf.disable())// Disable CSRF (cross site request forgery)
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()//allow access
+                        .requestMatchers("/api/v1/**").permitAll()//allow access
                         .anyRequest().authenticated()//requires authentication for access
                 )
                 .sessionManagement(smc -> smc

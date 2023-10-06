@@ -1,7 +1,7 @@
 package com.example.courseappspringboot.domain.model.course;
 
 public enum CourseLevels {
-    BEGGINER,
+    BEGINNER,
     INTERMEDIATE,
     ADVANCED
 }
