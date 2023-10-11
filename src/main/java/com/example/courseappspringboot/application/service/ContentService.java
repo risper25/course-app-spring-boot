@@ -7,7 +7,8 @@ import java.util.List;
 public interface ContentService {
     Content addContent(Content content);
     void updateContent(Content content);
-    void findContentById(int id);
+    Content findContentById(int id);
     List<Content> findContentsByModuleId(int id);
-    void deleteModuleById(int id);
+    void deleteContentById(int id);
+    void deleteContentByModuleId(int module_id);
 }

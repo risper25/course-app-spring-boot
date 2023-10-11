@@ -19,8 +19,7 @@ public class CourseController {
     CourseServiceImpl service;
 
    @PostMapping("/add")
-    public ResponseEntity<ApiResponse<Course>> addCourse(CourseDto request){
-
+    public ResponseEntity<ApiResponse<Course>> addCourse(@RequestBody CourseDto request){
        Course course= CourseMapper.INSTANCE.courseDtoToDomain(request);;
        Course data=service.addCourse(course);
      ApiResponse<Course> response= ApiResponse.<Course>builder()
@@ -32,7 +31,7 @@ public class CourseController {
      return ResponseEntity.ok(response);
    }
    @PutMapping("/update")
-    public ResponseEntity<ApiResponse<Course>> updateCourse(CourseDto request){
+    public ResponseEntity<ApiResponse<Course>> updateCourse(@RequestBody CourseDto request){
 
        Course course= CourseMapper.INSTANCE.courseDtoToDomain(request);;
        service.updateCourse(course);
@@ -88,7 +87,7 @@ public class CourseController {
     }
 
     @GetMapping("/findCourseByTitle/{title}")
-    public ResponseEntity<ApiResponse<Course>> findCoursesByTutorId(String title){
+    public ResponseEntity<ApiResponse<Course>> findCoursesByTutorId(@PathVariable String title){
         Course course=service.findCourseByTitle(title);
         ApiResponse<Course> response= ApiResponse.<Course>builder()
                 .isSuccess(true)

@@ -18,4 +18,5 @@ public class Content {
     private String video_url ;
     private String content_text;
     private Date created_at;
+
 }
