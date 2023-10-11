@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 @Builder
@@ -19,11 +20,12 @@ public class Course {
     private User tutor;
     private String course_title;
     private String course_description;
-    private Date course_duration;
-    private Date created_at;
+    private int course_duration_weeks;
+    private Timestamp created_at;
     private Double course_price;
     private Category course_category;
     private CourseLevels course_level;
+    private List<Module> modules;
 
 
 }

@@ -19,4 +19,6 @@ public class Module {
     private int module_order;
     private Date created_at;
 
+    private List<Content> contents;
+
 }

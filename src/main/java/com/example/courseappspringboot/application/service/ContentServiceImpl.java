@@ -1,10 +1,14 @@
-package com.example.courseappspringboot.domain.dao.content;
+package com.example.courseappspringboot.application.service;
 
 import com.example.courseappspringboot.domain.model.course.Content;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ContentDaoImpl implements ContentDao{
+@Service
+@RequiredArgsConstructor
+public class ContentServiceImpl implements ContentService{
     @Override
     public Content addContent(Content content) {
         return null;

@@ -1,10 +1,10 @@
-package com.example.courseappspringboot.domain.dao.course;
+package com.example.courseappspringboot.application.service;
 
 import com.example.courseappspringboot.domain.model.course.Course;
 
 import java.util.List;
 
-public interface CourseDao {
+public interface CourseService {
     Course addCourse(Course course);
     void updateCourse(Course course);
     Course findCourseById(int id);
