@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CustomDatabaseException.class)
     public ResponseEntity<ApiResponse<Object>> handleCustomDatabaseException(CustomDatabaseException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -21,6 +22,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Object>> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -30,6 +32,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CourseAlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Object>> handleCourseAlreadyExistsException(CourseAlreadyExistsException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -38,6 +41,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ContentAlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Object>> handleContentAlreadyExistsException(ContentAlreadyExistsException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -46,6 +50,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ModuleAlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Object>> handleModuleAlreadyExistsException(ModuleAlreadyExistsException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -54,6 +59,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleCategoryNotFoundException(CategoryNotFoundException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -63,6 +69,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CourseNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleCourseNotFoundException(CourseNotFoundException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -72,6 +79,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ModuleNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleModuleNotFoundException(ModuleNotFoundException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -81,6 +89,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ContentNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleContentNotFoundException(ContentNotFoundException ex){
+        ex.printStackTrace();
+        ApiResponse<Object> response= new ApiResponse<>();
+        response.setSuccess(false);
+        response.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
+    }
+
+    @ExceptionHandler(InvalidCourseLevelException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidCourseLevelException(InvalidCourseLevelException ex){
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
@@ -90,6 +109,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleException(Exception ex){
+
+        ex.printStackTrace();
         ApiResponse<Object> response= new ApiResponse<>();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());

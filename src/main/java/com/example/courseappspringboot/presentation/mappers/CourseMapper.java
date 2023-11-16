@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CourseMapper {
     CourseMapper INSTANCE= Mappers.getMapper(CourseMapper.class);
-
+    @Mapping(source = "tutor_id", target = "tutor.user_id")
+    @Mapping(source = "category_name", target = "course_category.category_name")
     Course courseDtoToDomain(CourseDto courseDto);
 }

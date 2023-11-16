@@ -8,3 +8,4 @@ public record RegistrationDto(
          String phone_number,
         String password
       ) { }
+//"first_name":"risper","last_name":"orawo","email":"r@g.com","phone_number":"33","password":"1"

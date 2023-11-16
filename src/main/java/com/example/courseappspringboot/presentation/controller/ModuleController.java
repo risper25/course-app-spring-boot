@@ -28,7 +28,7 @@ public class ModuleController {
                 .build();
         return ResponseEntity.ok(response);
     }
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<ApiResponse<Module>> updateModule(@RequestBody ModuleDto request){
         Module data= ModuleMapper.INSTANCE.DtoToDomain(request);
         service.updateModule(data);
@@ -70,19 +70,20 @@ public class ModuleController {
                 .build();
         return ResponseEntity.ok(response);
     }
-    @DeleteMapping("/deleteByCourseId/{id}")
+    @DeleteMapping("/deleteByCourseId/{course_id}")
     public ResponseEntity<ApiResponse<Module>> deleteModulesByCourseId(@PathVariable int course_id){
-        service.deleteModulesByCourseId(course_id);
+        boolean success=service.deleteModulesByCourseId(course_id);
         ApiResponse<Module> response= ApiResponse.<Module>builder()
-                .isSuccess(true)
+                .isSuccess(success)
                 .Message("Deleted successfully")
                 .build();
         return ResponseEntity.ok(response);
     }
-    public ResponseEntity<ApiResponse<Module>> deleteModuleById(@PathVariable int id){
-        service.deleteModuleById(id);
+    @DeleteMapping("/deleteByModuleId/{module_id}")
+    public ResponseEntity<ApiResponse<Module>> deleteModuleById(@PathVariable int module_id){
+        boolean success=service.deleteModuleById(module_id);
         ApiResponse<Module> response= ApiResponse.<Module>builder()
-                .isSuccess(true)
+                .isSuccess(success)
                 .Message("Deleted successfully")
                 .build();
         return ResponseEntity.ok(response);

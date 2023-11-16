@@ -10,7 +10,7 @@ public interface ModuleDao {
     Module findModuleById(int id);
     Module findModuleByTitle(String name);
     List<Module> findModulesByCourseId(int id);
-    void deleteModulesByCourseId(int course_id);
-    void deleteModuleById(int id);
+    boolean deleteModulesByCourseId(int course_id);
+    boolean deleteModuleById(int id);
 
 }

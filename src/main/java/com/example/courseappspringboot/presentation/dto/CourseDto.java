@@ -6,13 +6,14 @@ import com.example.courseappspringboot.domain.model.user.User;
 
 import java.sql.Timestamp;
 
-public record CourseDto(int course_id,
-                        User tutor,
+public record CourseDto(
+                        int tutor_id,
                         String course_title,
                         String course_description,
                         int course_duration_weeks,
-                        Timestamp created_at,
+
                         Double course_price,
-                        Category course_category,
+                        String category_name,
                         CourseLevels course_level) {
 }
+//tutor_id,"course_title","course_description","course_duration_weeks","course_price","category_name","course_level"

@@ -15,7 +15,12 @@ java {
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
+
 	}
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+
 }
 
 repositories {
@@ -25,16 +30,17 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.0.4'
 	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.4'
-	implementation 'org.springframework.boot:spring-boot-starter-web:3.1.0'
+	implementation('org.springframework.boot:spring-boot-starter-web:3.1.0')
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.flywaydb:flyway-core:9.16.0'
 	implementation 'javax.annotation:javax.annotation-api:1.3.2'
 	implementation 'com.google.code.findbugs:jsr305:3.0.2'
-	implementation 'org.springframework.boot:spring-boot-starter-logging'
-	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	// Exclude spring-boot-starter-logging and use only spring-boot-starter-log4j2
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2:3.0.4'
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	testImplementation 'junit:junit:4.13.1'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	compileOnly 'org.projectlombok:lombok:1.18.26'
@@ -42,6 +48,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.0'
 	testImplementation 'org.springframework.security:spring-security-test:6.0.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+	testImplementation 'org.mockito:mockito-core'
 }
 
 

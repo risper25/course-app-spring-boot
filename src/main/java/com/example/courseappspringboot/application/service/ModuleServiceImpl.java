@@ -38,13 +38,13 @@ public class ModuleServiceImpl implements ModuleService{
     }
 
     @Override
-    public void deleteModulesByCourseId(int course_id) {
-          moduleDao.deleteModulesByCourseId(course_id);
+    public boolean deleteModulesByCourseId(int course_id) {
+          return moduleDao.deleteModulesByCourseId(course_id);
     }
 
     @Override
-    public void deleteModuleById(int id) {
-        moduleDao.deleteModuleById(id);
+    public boolean deleteModuleById(int id) {
+        return moduleDao.deleteModuleById(id);
 
     }
 }

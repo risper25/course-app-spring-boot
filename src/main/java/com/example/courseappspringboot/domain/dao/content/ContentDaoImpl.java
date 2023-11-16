@@ -50,7 +50,7 @@ public class ContentDaoImpl implements ContentDao{
     @Override
     public Content findContentById(int id) {
         try {
-            String sql="SELECT * FROM contents";
+            String sql="SELECT * FROM contents WHERE content_id=? ORDER BY content_order";
             Object[] args={id};
             Content content= jdbcTemplate.queryForObject(sql,new ContentRowMapper(),args);
             if(content==null){

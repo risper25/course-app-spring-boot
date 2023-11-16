@@ -1,7 +1,11 @@
 package com.example.courseappspringboot.application.service;
 
+import com.example.courseappspringboot.domain.dao.category.CategoryDaoImpl;
 import com.example.courseappspringboot.domain.dao.course.CourseDaoImpl;
+import com.example.courseappspringboot.domain.dao.user.UserDaoImpl;
+import com.example.courseappspringboot.domain.model.course.Category;
 import com.example.courseappspringboot.domain.model.course.Course;
+import com.example.courseappspringboot.domain.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,27 +13,43 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService{
-    CourseDaoImpl dao;
+    private final CourseDaoImpl dao;
+    private final UserDaoImpl  uDao;
+    private final CategoryDaoImpl categoryDao;
 
     @Override
-    public Course addCourse(Course course) {
+    public boolean addCourse(Course course) {
+
+        User tutor=uDao.getUserById(course.getTutor().getUser_id());
+        Category category=categoryDao.findCategoryByName(course.getCourse_category().getCategory_name());
+        course.setTutor(tutor);
+        course.setCourse_category(category);
         return dao.addCourse(course);
     }
 
     @Override
-    public void updateCourse(Course course) {
-        dao.updateCourse(course);
+    public boolean updateCourse(Course course) {
+
+       /* User tutor=userDao.getUserById(course.getTutor().getUser_id());
+        Category category=categoryDao.findCategoryById(course.getCourse_category().getCategory_id());
+        course.setTutor(tutor);
+        course.setCourse_category(category);*/
+        return  dao.updateCourse(course);
 
     }
 
     @Override
     public Course findCourseById(int id) {
-        return dao.findCourseById(id);
+        Course course=dao.findCourseById(id);
+
+
+        return course;
     }
 
     @Override
     public List<Course> findAllCourses() {
         return dao.findAllCourses();
+
     }
 
     @Override
@@ -48,14 +68,15 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public void deleteCourseById(int id) {
-        dao.deleteCourseById(id);
+    public boolean deleteCourseById(int id) {
+        return dao.deleteCourseById(id);
 
     }
 
     @Override
-    public void deleteCourseByTitle(String title) {
-        deleteCourseByTitle(title);
-
+    public boolean deleteCourseByTutorId(int tutor_id) {
+        return dao.deleteCourseByTutorId(tutor_id);
     }
+
+
 }

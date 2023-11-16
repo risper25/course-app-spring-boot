@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 
-public class Course {
+public class Course implements Serializable {
     private int course_id;
-    private User tutor;
     private String course_title;
     private String course_description;
     private int course_duration_weeks;
@@ -25,6 +25,8 @@ public class Course {
     private Double course_price;
     private Category course_category;
     private CourseLevels course_level;
+    private User tutor;
+
     private List<Module> modules;
 
 

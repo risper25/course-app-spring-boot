@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ModuleDaoImpl implements ModuleDao{
     private final JdbcTemplate jdbcTemplate;
-    Logger logger= LoggerFactory.getLogger(ModuleDaoImpl.class);
+    private final Logger logger= LoggerFactory.getLogger(ModuleDaoImpl.class);
     @Override
     public Module addModule(Module module) {
         try{
@@ -26,13 +26,13 @@ public class ModuleDaoImpl implements ModuleDao{
         return module;
         }
         catch (DuplicateKeyException e){
-            logger.error("Module with id "+module.getModule_id()+" already exists:");
-            throw new ModuleAlreadyExistsException("Module with id "+module.getModule_id()+" already exists:" + e.getMessage());
+            logger.error("Module with id "+module.getModule_id()+" already exists:" + e.getMessage());
+            throw new ModuleAlreadyExistsException("Module with id"+" "+module.getModule_id()+" "+"already exists");
 
         }
         catch (DataAccessException e){
-            logger.error("Failure to add module to  database:");
-            throw new CustomDatabaseException("Failure to add module to  database:" + e.getMessage());
+            logger.error("Failure to add module to database:" + e.getMessage());
+            throw new CustomDatabaseException("Failure to add module to database");
 
 
         }
@@ -45,8 +45,8 @@ public class ModuleDaoImpl implements ModuleDao{
             jdbcTemplate.update(sql,module.getCourse_id(),module.getModule_title(), module.getModule_description(),module.getModule_order());
         }
         catch (DataAccessException e){
-            logger.error("Failure to update module :");
-            throw new CustomDatabaseException("Failure to update module: " + e.getMessage());
+            logger.error("Failure to update module :"+ e.getMessage());
+            throw new CustomDatabaseException("Failure to update module");
 
         }
 
@@ -55,33 +55,40 @@ public class ModuleDaoImpl implements ModuleDao{
     @Override
     public Module findModuleById(int id) {
         try{
-            String sql="SELECT * FROM modules WHERE module_id=?";
+            String sql="SELECT * FROM modules AS m " +
+                    "LEFT JOIN contents AS ct ON m.module_id = ct.module_id " +
+                    "WHERE m.module_id=?";
             Object[] args ={id};
-            Module module= jdbcTemplate.queryForObject(sql,new ModuleRowMapper(),args);
-            if(module==null){
-                throw new ModuleNotFoundException("Module with id"+id+"does not exist");
+            List<Module> modules= jdbcTemplate.query(sql,new ModuleResultSetExtractor(),args);
+
+            assert modules != null;
+            if(modules.isEmpty()){
+                throw new ModuleNotFoundException("Module with id "+id+" does not exist");
             }
-            return module;
+            return modules.get(0);
         }
         catch(DataAccessException e){
             throw new ModuleNotFoundException("Module with id: "+id+" not found");
         }
-
     }
 
     @Override
     public Module findModuleByTitle(String title) {
         try{
-            String sql="SELECT * FROM modules WHERE module_title=?";
+            String sql="SELECT * FROM modules AS m " +
+                    "LEFT JOIN contents AS ct ON m.module_id = ct.module_id " +
+                    "WHERE m.module_title=?";
             Object[] args ={title};
-            Module module= jdbcTemplate.queryForObject(sql,new ModuleRowMapper(),args);
-            if(module==null){
-                throw new ModuleNotFoundException("Module with title: "+title+" does not exist");
+            List<Module> modules= jdbcTemplate.query(sql,new ModuleResultSetExtractor(),args);
+            assert modules != null;
+            if(modules.isEmpty()){
+                throw new ModuleNotFoundException("Module with title "+title+" does not exist");
             }
-            return module;
+            return modules.get(0);
         }
+
         catch(DataAccessException e){
-            throw new ModuleNotFoundException("Module with title: "+title+" not found");
+            throw new ModuleNotFoundException("Module with title "+title+" not found");
         }
 
     }
@@ -89,20 +96,29 @@ public class ModuleDaoImpl implements ModuleDao{
     @Override
     public List<Module> findModulesByCourseId(int course_id) {
         try{
-        String sql="SELECT * FROM modules WHERE course_id=? ORDER BY module_order";
-        Object[] args={course_id};
-
-        return jdbcTemplate.query(sql,new ModuleRowMapper(),args);}
+            String sql="SELECT * FROM modules AS m " +
+                    "LEFT JOIN contents AS ct ON m.module_id = ct.module_id " +
+                    "WHERE m.course_id=? ORDER BY m.module_order";
+            Object[] args ={course_id};
+            return jdbcTemplate.query(sql,new ModuleResultSetExtractor(),args);
+        }
         catch(DataAccessException e){
             throw new CustomDatabaseException("Failed to find modules of course_id: "+course_id);
         }
     }
     @Override
-    public void deleteModulesByCourseId(int course_id) {
+    public boolean deleteModulesByCourseId(int course_id) {
         try{
-        String sql="DELETE * FROM modules WHERE course_id=?";
+        String sql="DELETE  FROM modules AS m " +
+                "USING contents AS ct " +
+                "WHERE m.module_id = ct.module_id " +
+                "AND m.course_id=?";
+
         Object[] args={course_id};
-        jdbcTemplate.update(sql,args);}
+        int rows_affected=jdbcTemplate.update(sql,args);
+        return rows_affected>0;
+        }
+
         catch(DataAccessException e){
             throw new CustomDatabaseException("Failed to delete Modules of course_id: "+course_id);
         }
@@ -110,11 +126,16 @@ public class ModuleDaoImpl implements ModuleDao{
     }
 
     @Override
-    public void deleteModuleById(int id) {
+    public boolean deleteModuleById(int id) {
         try{
-            String sql="DELETE * FROM modules WHERE module_id=?";
+            String sql="DELETE  FROM modules AS m " +
+                    "USING contents AS ct " +
+                    "WHERE m.module_id = ct.module_id " +
+                    "AND m.module_id=?";
             Object[] args={id};
-            jdbcTemplate.update(sql,args);}
+            int rows_affected=jdbcTemplate.update(sql,args);
+            return rows_affected>0;
+        }
         catch(DataAccessException e){
             throw new CustomDatabaseException("Failed to delete module with id : "+id);
         }

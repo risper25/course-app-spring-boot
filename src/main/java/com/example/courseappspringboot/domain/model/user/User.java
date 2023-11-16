@@ -20,16 +20,14 @@ import java.util.List;
 public class User implements UserDetails {
    @Nullable
     private Integer user_id;
-
-    @NonNull
     private String first_name;
-    @NonNull
+
     private String last_name;
-    @NonNull
+
     private String email;
-    @NonNull
+
     private String phone_number;
-    @NonNull
+
     private String password;
 
 

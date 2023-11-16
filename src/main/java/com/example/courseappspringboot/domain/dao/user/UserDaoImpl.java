@@ -2,7 +2,9 @@ package com.example.courseappspringboot.domain.dao.user;
 
 import com.example.courseappspringboot.domain.model.user.Role;
 import com.example.courseappspringboot.domain.model.user.User;
+import com.example.courseappspringboot.exceptions.CustomDatabaseException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -30,10 +32,19 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserById(int user_id) {
+        try{
         String sql="SELECT * FROM users_ WHERE user_id=?";
         Object[] args = {user_id };
 
-        return jdbcTemplate.queryForObject(sql,  new BeanPropertyRowMapper<>(User.class),args);
+        User user= jdbcTemplate.queryForObject(sql,new UserRowMapper(),args);
+        if(user==null){
+            throw new CustomDatabaseException("user not found");
+        }
+        return user;
+        }
+        catch (DataAccessException ex){
+            throw new CustomDatabaseException("Failed to find user");
+        }
     }
 
     @Override
